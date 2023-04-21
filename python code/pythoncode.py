@@ -23,5 +23,16 @@ for n in range(number_of_weights):
 
 new_row = np.random.uniform(low=-2,high=2,size=(n_hidden_nodes,n_outputs))
 weight_lis.append(new_row)
-print(weight_lis)
+#appending will allow us to create a list of matricies
+
+#bais list
+bais_lis = []
+bais_lis.append(np.random.uniform(low=-2,high=2,size=(n_inputs,n_hidden_nodes)))
+
+for n in range(number_of_weights):
+  new_row = np.random.uniform(low=-2,high=2,size=(n_hidden_nodes,n_hidden_nodes))
+  bais_lis.append(new_row)
+
+new_row = np.random.uniform(low=-2,high=2,size=(n_hidden_nodes,n_outputs))
+bais_lis.append(new_row)
 #appending will allow us to create a list of matricies
