@@ -13,3 +13,6 @@ def sigmoid(x):
 number_of_weights = n_hidden + 1
 #how this should be done is we need to create the first layer, repeat for number of layers and last layer
 
+weights_1 = np.random.uniform(low=-2,high=2,size=(n_inputs,n_hidden_nodes))
+print(weights_1)
+
