@@ -36,3 +36,12 @@ for n in range(number_of_weights):
 new_row = np.random.uniform(low=-2,high=2,size=(n_hidden_nodes,n_outputs))
 bais_lis.append(new_row)
 #appending will allow us to create a list of matricies
+
+#now i will need to create a a matric of all the nodes. 
+#we can create a for loop that will run though each node for hiden layers
+
+inp_nodes = np.random.uniform(low=-1,high=1,size=(1,n_inputs))
+
+hidden_nodes = np.random.uniform(low=-1,high=1,size=(1,n_hidden_nodes))
+for n in range (number_of_weights):
+  hidden_nodes.append
