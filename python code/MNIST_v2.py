@@ -57,4 +57,6 @@ def forward_prop(a_0,a_1,a_2,a_3,z_1,z_2,z_3,w_1,w_2,w_3,b_1,b_2,b_3):
    z_2 = w_2*a_1 - b_2
    z_3 = w_3*a_2 - b_3 
    
-   a_1 = sigmoid()
+   a_1 = sigmoid(z_1)
+   a_2 = sigmoid(z_2)
+   a_3 = softactive(z_3)
