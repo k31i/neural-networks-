@@ -51,3 +51,10 @@ def sigmoid(x):
 #another function needs to be added for the output value as we want the highest probability chosen
 def softactive(x):
    return np.exp(x) / sum(np.exp(x))
+
+def forward_prop(a_0,a_1,a_2,a_3,z_1,z_2,z_3,w_1,w_2,w_3,b_1,b_2,b_3):
+   z_1 = w_1*a_0 - b_1
+   z_2 = w_2*a_1 - b_2
+   z_3 = w_3*a_2 - b_3 
+   
+   a_1 = sigmoid()
