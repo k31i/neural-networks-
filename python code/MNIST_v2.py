@@ -52,10 +52,16 @@ def sigmoid(x):
 def softactive(x):
    return np.exp(x) / sum(np.exp(x))
 
-def forward_prop(a_0,a_1,a_2,a_3,z_1,z_2,z_3,w_1,w_2,w_3,b_1,b_2,b_3):
-   z_1 = w_1*a_0 - b_1
-   z_2 = w_2*a_1 - b_2
-   z_3 = w_3*a_2 - b_3 
+def one_hot(Y):#################################coppied from kaggel and used in back prop
+    one_hot_Y = np.zeros((Y.size, Y.max() + 1))
+    one_hot_Y[np.arange(Y.size), Y] = 1
+    one_hot_Y = one_hot_Y.T
+    return one_hot_Y
+
+def forward_prop(a_0,a_1,a_2,a_3,z_1,z_2,z_3,w_1,w_2,w_3,b_1,b_2,b_3):#correct for dot prod
+   z_1 = w_1.dot(a_0) - b_1
+   z_2 = w_2.dot(a_1) - b_2
+   z_3 = w_3.dot(a_2) - b_3 
    
    a_1 = sigmoid(z_1)
    a_2 = sigmoid(z_2)
@@ -65,12 +71,10 @@ def forward_prop(a_0,a_1,a_2,a_3,z_1,z_2,z_3,w_1,w_2,w_3,b_1,b_2,b_3):
 def sigmoid_dev(x):
    return (1/(1+np.e**(-x)))*(1-(1/(1+np.e**(-x))))
 
-#note we need to keep c as a 1x10 matric so we have the average value for each a!!!!!!!!!
-
 #we need one for soft active derivative we will call it softactive_dev!!!!!!!!
 
-def back_prop(c,a_3,a_2,a_1,a_0,z_3,z_2,z_1,w_3,w_2):
-   si_3 = np.dot(2*np.sqrt(c),softactive_dev(z_3))
+def back_prop(Y,a_3,a_2,a_1,a_0,z_3,z_2,z_1,w_3,w_2):
+   si_3 = np.dot(2*(a_3-Y),softactive_dev(z_3))
    b_3_dev = si_3
    w_3_dev = np.dot(a_2,si_3)
    si_2 = np.dot(np.dot(np.transpose(w_3),si_3),sigmoid_dev(z_2))
@@ -81,3 +85,8 @@ def back_prop(c,a_3,a_2,a_1,a_0,z_3,z_2,z_1,w_3,w_2):
    w_1_dev = np.dot(a_0,si_1)
    return b_1_dev,b_2_dev,b_1_dev,w_1_dev,w_2_dev,w_3_dev
 
+def update(a):
+      ###NEEEDDDDSSSS FINISHING!!!
+   return 1
+
+######-----------------caculating the error and values--------------------######
