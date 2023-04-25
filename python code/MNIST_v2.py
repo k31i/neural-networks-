@@ -85,14 +85,20 @@ def back_prop(Y,a_3,a_2,a_1,a_0,z_3,z_2,z_1,w_3,w_2):
    si_1 = np.dot(np.dot(np.transpose(w_2),si_2),sigmoid_dev(z_1))
    b_1_dev = si_1
    w_1_dev = np.dot(a_0,si_1)
-   return b_1_dev,b_2_dev,b_1_dev,w_1_dev,w_2_dev,w_3_dev
+   return b_1_dev,b_2_dev,b_3_dev,w_1_dev,w_2_dev,w_3_dev
 
-def update(a):#UPDATE!!
-   return a
+def update(w1,w2,w3,dw1,dw2,dw3,b1,b2,b3,db1,db2,db3,alpha):
+    w1 = w1 - alpha * dw1
+    b1 = b1 - alpha * db1    
+    w2 = w2 - alpha * dw2  
+    b2 = b2 - alpha * db2 
+    w3 = w3 - alpha * dw3  
+    b3 = b3 - alpha * db3   
+    return w1,w2,w3,b1,b2,b3
 
 ######-----------------caculating the error and values--------------------######
 
-#straight up cntrl+c / cntrl+v
+#straight up cntrl+c / cntrl+v this stuff
 
 def get_predictions(A2):
     return np.argmax(A2, 0)
@@ -104,11 +110,12 @@ def get_accuracy(predictions, Y):
 def gradient_descent(X, Y, alpha, iterations):
     for i in range(iterations):
         Z1,Z2,Z3,A1,A2,A3 = forward_prop(X,weig_1,weig_2,weig_3,bias_1,bias_2,bias_3)
-        dW1, db1, dW2, db2 = backward_prop(Z1, A1, Z2, A2, W1, W2, X, Y)
-        W1, b1, W2, b2 = update_params(W1, b1, W2, b2, dW1, db1, dW2, db2, alpha)
+        db1, db2, db3, dW1, dW2, dW3 = back_prop(Y,A3,A2,A1,X,Z3,Z2,Z1,weig_3,weig_2)
+        weig_1, weig_2, weig_3, bias_1, bias_2, bias_3 = update(W1, W2, W3, dW1, dW2, dW3, b1, b2, b3, db1, db2, db3, alpha)
         if i % 10 == 0:
             print("Iteration: ", i)
             predictions = get_predictions(A2)
             print(get_accuracy(predictions, Y))
     return W1, b1, W2, b2
+
 W1, b1, W2, b2 = gradient_descent(X_train, Y_train, 0.10, 500)
