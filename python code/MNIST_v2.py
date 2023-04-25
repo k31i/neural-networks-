@@ -24,16 +24,17 @@ X_train = X_train / 255.
 _,m_train = X_train.shape
 
 
+
 #-------define the pramaters aka weights and nodes
 
 
 weig_1 = np.random.uniform(low=-2, high=2, size=(16, 784))
 weig_2 = np.random.uniform(low=-2, high=2, size=(16, 16))
-weig_3 = np.random.uniform(low=-2, high=2, size=(16, 10))
+weig_3 = np.random.uniform(low=-2, high=2, size=(10, 16))
 
-bias_1 = np.random.uniform(low=-1,high=1,size=16)
-bias_2 = np.random.uniform(low=-1,high=1,size=16)
-bias_3 = np.random.uniform(low=-1,high=1,size=10)
+bias_1 = np.random.uniform(low=-1,high=1,size=(16,1))
+bias_2 = np.random.uniform(low=-1,high=1,size=(16,1))
+bias_3 = np.random.uniform(low=-1,high=1,size=(10,1))
 
 #-------define the functions to be used. so forwarad and back propagation--------------#
 
@@ -69,25 +70,25 @@ def sigmoid_dev(x):
 def softactive_dev(x):#FUCK THIS!!!
    return 1
 
-def back_prop(Y,a_3,a_2,a_1,a_0,z_3,z_2,z_1,w_3,w_2):
+def back_prop(Y,a_3,a_2,a_1,a_0,z_3,z_2,z_1,w_3,w_2):#dont know if .T is right i just put them in to avoid eorr but need to figure out why
    si_3 = np.dot(2*(a_3-Y),softactive_dev(z_3))
    b_3_dev = si_3
-   w_3_dev = np.dot(a_2,si_3)
-   si_2 = np.dot(np.dot(np.transpose(w_3),si_3),sigmoid_dev(z_2))
+   w_3_dev = np.dot(si_3,a_2.T)
+   si_2 = np.dot(np.dot(np.transpose(w_3),si_3),sigmoid_dev(z_2).T)
    b_2_dev = si_2
-   w_2_dev = np.dot(a_1,si_2)
+   w_2_dev = np.dot(si_2,a_1)
    si_1 = np.dot(np.dot(np.transpose(w_2),si_2),sigmoid_dev(z_1))
    b_1_dev = si_1
-   w_1_dev = np.dot(a_0,si_1)
+   w_1_dev = np.dot(si_1,a_0.T)
    return b_1_dev,b_2_dev,b_3_dev,w_1_dev,w_2_dev,w_3_dev
 
 def update(w1,w2,w3,dw1,dw2,dw3,b1,b2,b3,db1,db2,db3,alpha):
     w1 = w1 - alpha * dw1
-    b1 = b1 - alpha * db1    
-    w2 = w2 - alpha * dw2  
-    b2 = b2 - alpha * db2 
-    w3 = w3 - alpha * dw3  
-    b3 = b3 - alpha * db3   
+    b1 = b1 - alpha * db1
+    w2 = w2 - alpha * dw2
+    b2 = b2 - alpha * db2
+    w3 = w3 - alpha * dw3
+    b3 = b3 - alpha * db3
     return w1,w2,w3,b1,b2,b3
 
 ######-----------------caculating the error and values--------------------######
@@ -106,11 +107,11 @@ def gradient_descent(X, Y, alpha, iterations):
     for i in range(iterations):
         Z1,Z2,Z3,A1,A2,A3 = forward_prop(X,weig_1,weig_2,weig_3,bias_1,bias_2,bias_3)
         db1, db2, db3, dW1, dW2, dW3 = back_prop(Y,A3,A2,A1,X,Z3,Z2,Z1,weig_3,weig_2)
-        weig_1, weig_2, weig_3, bias_1, bias_2, bias_3 = update(W1, W2, W3, dW1, dW2, dW3, b1, b2, b3, db1, db2, db3, alpha)
+        weig_1, weig_2, weig_3, bias_1, bias_2, bias_3 = update(weig_1, weig_2, weig_3, dW1, dW2, dW3, bias_1, bias_2, bias_3, db1, db2, db3, alpha)
         if i % 10 == 0:
             print("Iteration: ", i)
             predictions = get_predictions(A2)
             print(get_accuracy(predictions, Y))
-    return W1, b1, W2, b2
+    return weig_1,bias_1,weig_2,bias_2,weig_3,bias_3
 
-W1, b1, W2, b2 = gradient_descent(X_train, Y_train, 0.10, 500)
+W1, b1, W2, b2, W3, b3 = gradient_descent(X_train, Y_train, 0.10, 500)
