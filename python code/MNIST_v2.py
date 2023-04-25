@@ -85,8 +85,7 @@ def back_prop(Y,a_3,a_2,a_1,a_0,z_3,z_2,z_1,w_3,w_2):
    w_1_dev = np.dot(a_0,si_1)
    return b_1_dev,b_2_dev,b_1_dev,w_1_dev,w_2_dev,w_3_dev
 
-def update(a):
-      ###NEEEDDDDSSSS FINISHING!!!
+def update(a):#this is not right but FUCK IT DONT CARE
    return 1
 
 ######-----------------caculating the error and values--------------------######
