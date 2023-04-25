@@ -23,7 +23,7 @@ X_train = data_train[1:n]
 X_train = X_train / 255.
 _,m_train = X_train.shape
 
-
+X_train = np.split(X_train, X_train.shape[1], axis=1)
 
 #-------define the pramaters aka weights and nodes
 
@@ -54,17 +54,19 @@ def one_hot(Y):#################################coppied from kaggel and used in 
     return one_hot_Y
 
 def forward_prop(a_0,w_1,w_2,w_3,b_1,b_2,b_3):#correct for dot prod
-   z_1 = w_1.dot(a_0) - b_1
+   a_0 = np.hstack([np.reshape(mat, (784, 1)) for mat in a_0])#chat GPT told me to
+   z_1 = np.dot(w_1,a_0) - b_1
    a_1 = sigmoid(z_1)
+   print(a_0.shape)
+   print(w_1.shape)
+   print(z_1.shape)
    print(a_1.shape)
    
    z_2 = w_2.dot(a_1) - b_2
    a_2 = sigmoid(z_2)
-   print(a_2.shape)
 
    z_3 = w_3.dot(a_2) - b_3 
    a_3 = softactive(z_3)
-   print(a_3.shape)
    return z_1,z_2,z_3,a_1,a_2,a_3
 
 def sigmoid_dev(x):
@@ -75,20 +77,17 @@ def softactive_dev(x):#FUCK THIS!!!
 
 def back_prop(Y,a_3,a_2,a_1,a_0,z_3,z_2,z_1,w_3,w_2):#dont know if .T is right i just put them in to avoid eorr but need to figure out why
    si_3 = np.dot(2*(a_3-Y),softactive_dev(z_3))
-   print(si_3.shape)
    b_3_dev = si_3
    w_3_dev = np.dot(si_3,a_2.T)
-   print(w_3_dev.shape)
    si_2 = np.dot(np.dot(np.transpose(w_3),si_3),sigmoid_dev(z_2).T)
-   print(si_2.shape)
    b_2_dev = si_2
+   print(si_2.shape)
+   print(a_1.shape)
    w_2_dev = np.dot(si_2,a_1)
-   print(w_2_dev.shape)
    si_1 = np.dot(np.dot(np.transpose(w_2),si_2),sigmoid_dev(z_1))
-   print(si_1.shape)
    b_1_dev = si_1
+   a_0 = np.hstack([np.reshape(mat, (784, 1)) for mat in a_0])#chat GPT told me to
    w_1_dev = np.dot(si_1,a_0.T)
-   print(w_1_dev.shape)
    return b_1_dev,b_2_dev,b_3_dev,w_1_dev,w_2_dev,w_3_dev
 
 def update(w1,w2,w3,dw1,dw2,dw3,b1,b2,b3,db1,db2,db3,alpha):
