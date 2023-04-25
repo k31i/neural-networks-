@@ -26,15 +26,8 @@ _,m_train = X_train.shape
 
 #-------define the pramaters aka weights and nodes
 
-inp_a = []
-nodes_1_a = np.empty(16)#nodes not needed now
-nodes_1_z = np.empty(16)
-nodes_2_a = np.empty(16)
-nodes_2_b = np.empty(16)
-out_a = np.empty(10)
-out_z = np.empty(10)
 
-weig_1 = np.random.uniform(low=-2, high=2, size=(784, 16))
+weig_1 = np.random.uniform(low=-2, high=2, size=(16, 784))
 weig_2 = np.random.uniform(low=-2, high=2, size=(16, 16))
 weig_3 = np.random.uniform(low=-2, high=2, size=(16, 10))
 
@@ -42,13 +35,14 @@ bias_1 = np.random.uniform(low=-1,high=1,size=16)
 bias_2 = np.random.uniform(low=-1,high=1,size=16)
 bias_3 = np.random.uniform(low=-1,high=1,size=10)
 
-#-------define the functions to be used. so forwarad and back propagation
+#-------define the functions to be used. so forwarad and back propagation--------------#
+
 
 
 def sigmoid(x):
   # Sigmoid activation function: f(x) = 1 / (1 + e^(-x))
   return 1 / (1 + np.exp(-x))
-#another function needs to be added for the output value as we want the highest probability chosen
+
 def softactive(x):
    return np.exp(x) / sum(np.exp(x))
 
@@ -108,6 +102,7 @@ def get_accuracy(predictions, Y):
     return np.sum(predictions == Y) / Y.size
 
 def gradient_descent(X, Y, alpha, iterations):
+    global weig_1, bias_1, weig_2, bias_2, weig_3, bias_3
     for i in range(iterations):
         Z1,Z2,Z3,A1,A2,A3 = forward_prop(X,weig_1,weig_2,weig_3,bias_1,bias_2,bias_3)
         db1, db2, db3, dW1, dW2, dW3 = back_prop(Y,A3,A2,A1,X,Z3,Z2,Z1,weig_3,weig_2)
