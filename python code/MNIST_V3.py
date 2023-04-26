@@ -25,7 +25,6 @@ def softactive(x):
 
 def forward_prop(X,W1,W2,W3,B1,B2,B3):
    Z1 = np.dot(W1,X)+B1
-   print(B1.shape)
    A1 = sigmoid(Z1)
    Z2 = np.dot(W2,A1)+B2
    A2 = sigmoid(Z2)
@@ -91,7 +90,7 @@ def gradient_decent(X,Y,alpha,itterations):
    w1,w2,w3,b1,b2,b3 = inital_paramaters()
    for i in range(itterations):
       a1,a2,a3,z1,z2,z3 = forward_prop(X[i],w1,w2,w3,b1,b2,b3)
-      dw1,dw2,dw3,db1,db2,db3 = back_prop(x_x,Y[i],w1,w2,w3,a1,a2,a3,z1,z2,z3)
+      dw1,dw2,dw3,db1,db2,db3 = back_prop(X[i],Y[i],w1,w2,w3,a1,a2,a3,z1,z2,z3)
       w1,w2,w3,b1,b2,b3 = correction(alpha,w1,dw1,w2,dw2,w3,dw3,b1,db1,b2,db2,b3,db3)
       if i % 10 == 0:#copped from kaggel
             print("Iteration: ", i)
