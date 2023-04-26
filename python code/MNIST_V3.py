@@ -53,4 +53,26 @@ def correction(alpha,w1,dw1,w2,dw2,w3,dw3,b1,db1,b2,db2,b3,db3):
    b2 = b2 - (alpha*db2)
    b3 = b3 - (alpha*db3)
    return w1,w2,w3,b1,b2,b3
-   
+
+
+#########------------opening the file now. scary ;_;--------------
+######### dont forget the soft active derivative
+
+
+data = pd.read_csv("/workspaces/neural-networks-/python code/data/train.csv")
+data = np.array(data)
+m, n = data.shape
+np.random.shuffle(data) # shuffle before splitting into dev and training sets
+
+#setting up training data
+data_train = data[0:1000].T
+Y_train = data_train[0]
+X_train = data_train[1:n]
+X_train = X_train / 255.
+
+# Reshape the matrix into a list of 784x1 matrices
+X_train = [X_train[:, i] for i in range(X_train.shape[1])]
+
+#reshape the Y THANK YOU CHAT GPT
+identity_matrix = np.eye(10)
+Y_train = [identity_matrix[val] for val in Y_train]
