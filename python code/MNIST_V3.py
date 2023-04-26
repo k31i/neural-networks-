@@ -89,7 +89,7 @@ def get_accuracy(predictions, Y):#from kaggel
 def gradient_decent(X,Y,alpha,itterations):
    w1,w2,w3,b1,b2,b3 = inital_paramaters()
    for i in range(itterations):
-      a1,a2,a3,z1,z2,z3 = forward_prop(X[i],w1,w2,w3,b1,b2,b3)
+      a3,a2,a1,z3,z2,z1 = forward_prop(X[i],w1,w2,w3,b1,b2,b3)
       dw1,dw2,dw3,db1,db2,db3 = back_prop(X[i],Y[i],w1,w2,w3,a1,a2,a3,z1,z2,z3)
       w1,w2,w3,b1,b2,b3 = correction(alpha,w1,dw1,w2,dw2,w3,dw3,b1,db1,b2,db2,b3,db3)
       if i % 10 == 0:#copped from kaggel
